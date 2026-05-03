@@ -1,0 +1,14 @@
+import re
+from .models import Task
+
+def process_homework_10():
+    # 1. Циклом изменить заголовки: "заголовок (id)"[cite: 1]
+    for task in Task.objects.all():
+        task.title = f"{task.title} ({task.id})"
+        task.save()
+
+    # 2. Удалить записи с нечётной цифрой в заголовке[cite: 1]
+    for task in Task.objects.all():
+        digits = re.findall(r'\d', task.title)
+        if any(int(d) % 2 != 0 for d in digits):
+            task.delete()
